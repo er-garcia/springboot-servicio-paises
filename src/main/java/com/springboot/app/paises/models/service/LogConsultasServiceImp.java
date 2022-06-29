@@ -1,5 +1,7 @@
 package com.springboot.app.paises.models.service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,11 @@ public class LogConsultasServiceImp implements ILogConsultasService {
 	@Transactional
 	public LogConsultas save(LogConsultas log) {
 		return logDao.save(log);
+	}
+
+	@Override
+	public List<LogConsultas> findAll() {
+		return (List<LogConsultas>) logDao.findAll();
 	}
 
 

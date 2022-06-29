@@ -13,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +23,7 @@ import com.springboot.app.paises.models.service.ILogConsultasService;
 import com.springboot.app.paises.models.service.IPaisService;
 
 @RestController
+@RequestMapping("/api/v1")
 public class PaisController {
 
 	@Autowired
@@ -30,7 +32,7 @@ public class PaisController {
 	@Autowired
 	private ILogConsultasService logConsultasService;
 	
-	@GetMapping(value ="/api/v1/countries")
+	@GetMapping("/countries")
 	@Cacheable("addresses")
     @ResponseBody
     public List<PaisDTO> listarPaises(HttpServletRequest request, HttpServletResponse requestH){
@@ -44,13 +46,16 @@ public class PaisController {
 				endpiont, 
 				remoteAddr
 				);
-		logConsultasService.save(log);
+		try {
+			logConsultasService.save(log);
+		}
+		catch (Exception e) {}
 		return paisService.findAll();	 
 	
 	}	
 
  
-	@GetMapping("/api/v1/countries/{regionName}")
+	@GetMapping("/countries/{regionName}")
 	@Cacheable("addresses")
 	public Collection<PaisDTO> detallePais(@RequestBody @Validated @PathVariable String regionName, 
 			HttpServletRequest request) {
@@ -64,6 +69,11 @@ public class PaisController {
 				endpiont, 
 				remoteAddr
 				);
+		try {
+			logConsultasService.save(log);
+			}
+		catch (Exception e) {}
+		
 		logConsultasService.save(log);
 		return paisService.findAllById(regionName);
 	

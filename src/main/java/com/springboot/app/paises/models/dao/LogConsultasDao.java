@@ -6,5 +6,4 @@ import com.springboot.app.paises.models.entity.LogConsultas;
 
 public interface LogConsultasDao extends CrudRepository<LogConsultas, Long>{
 	
-
 }
